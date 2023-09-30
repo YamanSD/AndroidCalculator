@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/display"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="130dp"
+        android:background="@color/black"
+        android:gravity="center_vertical"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="35sp"
+        tools:ignore="LabelFor"
+        />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0c0c0c"
+        android:layout_below="@id/display"
+        android:useDefaultMargins="true"
+        android:padding="10dp"
+        android:columnCount="4"
+        android:rowCount="5"
+        >
+        <Button
+            android:id="@+id/plusBtn"
+            android:text="@string/plusBtn"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="3"
+            android:layout_column="3"
+            android:onClick="executeExpression"
+            />
+    </GridLayout>
+
+</RelativeLayout>
