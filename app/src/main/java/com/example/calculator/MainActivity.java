@@ -213,7 +213,12 @@ public class MainActivity extends AppCompatActivity {
      * @param value to be displayed on the display.
      */
     protected void setDisplay(String value) {
-        display.setText(value);
+        if (value.endsWith(".0")) {
+            final int dotIndex = value.indexOf('.');
+            display.setText(value.substring(0, dotIndex));
+        } else {
+            display.setText(value);
+        }
     }
 
     /**
