@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
     }};
 
     /**
-     * Buttons in this set do not clear the screen on evaluation.
+     * Buttons in this set erases the screen on evaluation, along with the current exp.
      */
-    private static final HashSet<Integer> nonClearingBtnSet = new HashSet<Integer>() {{
+    private static final HashSet<Integer> erasingBtnSet = new HashSet<Integer>() {{
     }};
 
     @Override
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
      * @return true if the button requires a clean screen
      */
     protected boolean doClear(View v) {
-        return !nonClearingBtnSet.contains(v.getId());
+        return !erasingBtnSet.contains(v.getId());
     }
 
     /**
@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
             if (doClear(view)) {
                 clearDisplay();
             } else {
+                currentExp = onDisplay;
                 setDisplay(currentExp);
             }
         }
