@@ -3,12 +3,12 @@ package com.example.calculator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
@@ -25,6 +25,21 @@ public class MainActivity extends AppCompatActivity {
     private EditText display;
 
     /**
+     * Mini-display instance for the calculator
+     */
+    private EditText miniDisplay;
+
+    /**
+     * true indicates that the user pressed the equals btn
+     */
+    private boolean hasEqualed = false;
+
+    /**
+     * Current selected button
+     */
+    private int selectedBtn = -1;
+
+    /**
      * Set of mathematical operators
      */
     private static final HashMap<String, BiFunction<Double, Double, Double>> operators =
@@ -39,18 +54,13 @@ public class MainActivity extends AppCompatActivity {
        put(R.id.plusBtn, "+");
     }};
 
-    /**
-     * Buttons in this set erases the screen on evaluation, along with the current exp.
-     */
-    private static final HashSet<Integer> erasingBtnSet = new HashSet<Integer>() {{
-    }};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         display = findViewById(R.id.display);
+        miniDisplay = findViewById(R.id.miniDisplay);
     }
 
     /**
@@ -191,15 +201,15 @@ public class MainActivity extends AppCompatActivity {
      * @return the operator associated with the button.
      */
     protected String getOperator(View v) {
-        return btnToOperator.get(v.getId());
+        return getOperator(v.getId());
     }
 
     /**
-     * @param v pressed button.
-     * @return true if the button requires a clean screen
+     * @param id of the pressed button.
+     * @return the operator associated with the button.
      */
-    protected boolean doClear(View v) {
-        return !erasingBtnSet.contains(v.getId());
+    protected String getOperator(int id) {
+        return ' ' + btnToOperator.get(id) + ' ';
     }
 
     /**
@@ -207,6 +217,13 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void clearDisplay() {
         display.setText("");
+    }
+
+    /**
+     * Clears the mini-display.
+     */
+    protected void clearMiniDisplay() {
+        miniDisplay.setText("");
     }
 
     /**
@@ -222,10 +239,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * @param value to be displayed on the mini display.
+     */
+    protected void setMiniDisplay(String value) {
+        if (value.endsWith(".0")) {
+            final int dotIndex = value.indexOf('.');
+            miniDisplay.setText(value.substring(0, dotIndex));
+        } else {
+            miniDisplay.setText(value);
+        }
+    }
+
+    /**
      * @return the displayed text on screen.
      */
     protected String onDisplay() {
-        return display.getText().toString();
+        final Editable temp = display.getText();
+
+        return temp == null ? "" : temp.toString();
+    }
+
+    /**
+     * @param v button
+     * @return true if v is the equals button.
+     */
+    protected boolean isEquals(View v) {
+        return v.getId() == R.id.equalBtn;
+    }
+
+    /**
+     * @return true if the user has not selected an operation.
+     */
+    protected boolean hasSelectedOp() {
+        return selectedBtn != -1;
+    }
+
+    /**
+     * Resets the selected btn.
+     */
+    protected void resetBtn() {
+        selectedBtn = -1;
     }
 
     /**
@@ -234,33 +287,42 @@ public class MainActivity extends AppCompatActivity {
      * @param view pressed button
      */
     public void executeExpression(View view) {
-        /* text on display */
-        final String onDisplay = onDisplay();
-
-        /* no input is provided */
-        if (onDisplay.length() == 0) {
-            return;
-        }
-
-        // Process input
-        if (currentExp.length() == 0) {
-            // No input thus far
-            currentExp = onDisplay + getOperator(view); // Add the value on display
+        /* first input */
+        if (currentExp.isEmpty()) {
+            currentExp = onDisplay(); // Get from user
+            setMiniDisplay(currentExp); // Updated mini-screen
             clearDisplay();
-        } else if (isOperator(currentExp.charAt(currentExp.length() - 1))) {
-            // current expression has an operator
-            currentExp = evaluateExpression(currentExp + onDisplay).toString();
-            setDisplay(currentExp);
-        } else {
-            // Add the operator to the end of the current expression
-            currentExp += getOperator(view);
-
-            if (doClear(view)) {
-                clearDisplay();
-            } else {
-                currentExp = onDisplay;
-                setDisplay(currentExp);
+        } else if (isEquals(view)) { // User pressed equals btn
+            if (!onDisplay().isEmpty() && hasSelectedOp()) {
+                // If the display is not empty & the user has selected an operator.
+                currentExp += getOperator(selectedBtn) + onDisplay();
             }
+
+            setMiniDisplay(currentExp); // update mini-display with current expression
+            setDisplay(evaluateExpression(currentExp).toString()); // calculate expression
+            currentExp = onDisplay(); // current expression is the formatted value
+
+            resetBtn();
+            hasEqualed = true;
+        } else { // User pressed any other action btn
+            selectedBtn = view.getId(); // set selected operator
+
+            // Clear previous result
+            if (hasEqualed) {
+                clearDisplay();
+            }
+
+            if (!onDisplay().isEmpty()) {
+                // An operation has been selected with a value
+                currentExp += getOperator(selectedBtn) + onDisplay();
+            }
+
+            // Update mini-display
+            setMiniDisplay(currentExp);
+            clearDisplay();
+
+            // set back to false, any equalities are done
+            hasEqualed = false;
         }
     }
 }
