@@ -58,6 +58,9 @@
         <Button
             android:id="@+id/plusBtn"
             android:text="@string/plusBtn"
+            android:textColor="@color/white"
+            android:backgroundTint="#800080"
+            android:textSize="50sp"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_row="3"
@@ -68,6 +71,9 @@
         <Button
             android:id="@+id/minusBtn"
             android:text="@string/minusBtn"
+            android:textColor="@color/white"
+            android:backgroundTint="#800080"
+            android:textSize="50sp"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_row="2"
@@ -78,6 +84,9 @@
         <Button
             android:id="@+id/equalBtn"
             android:text="@string/equalBtn"
+            android:textColor="@color/white"
+            android:backgroundTint="#800080"
+            android:textSize="50sp"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_row="4"

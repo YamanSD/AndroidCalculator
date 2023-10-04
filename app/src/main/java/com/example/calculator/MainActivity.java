@@ -2,9 +2,11 @@ package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -167,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         for (String token: tokens) {
             if (isOperator(token)) {
                 if (latestOperator.length() != 0) {
-                    throw new IllegalArgumentException("Double operators");
+                    throw new ArithmeticException();
                 } else {
                     latestOperator = token;
                 }
@@ -178,6 +180,13 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     value = evaluateToken(token);
                 }
+            }
+
+            // If invalid value
+            if (value == Double.POSITIVE_INFINITY
+                    || value == Double.NEGATIVE_INFINITY
+                    || Double.isNaN(value)) {
+                throw new ArithmeticException();
             }
         }
 
@@ -287,7 +296,19 @@ public class MainActivity extends AppCompatActivity {
      * @param newBtn ID
      */
     protected void setSelectedBtn(int newBtn) {
+        if (hasSelectedOp()) {
+            Button prev = findViewById(selectedBtn);
+            prev.setTextColor(Color.parseColor("#ffffff"));
+            prev.setBackgroundColor(Color.parseColor("#800080"));
+        }
+
         selectedBtn = newBtn;
+
+        if (hasSelectedOp()) {
+            Button current = findViewById(selectedBtn);
+            current.setBackgroundColor(Color.parseColor("#ffffff"));
+            current.setTextColor(Color.parseColor("#800080"));
+        }
     }
 
     /**
@@ -302,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
             setMiniDisplay(currentExp); // Updated mini-screen
             clearDisplay();
 
-            if (!hasSelectedOp()) { // Initial btn click
+            if (!isEquals(view)) { // Initial btn click
                 setSelectedBtn(view.getId());
             }
         } else if (isEquals(view)) { // User pressed equals btn
@@ -312,8 +333,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             setMiniDisplay(currentExp); // update mini-display with current expression
-            setDisplay(evaluateExpression(currentExp).toString()); // calculate expression
-            currentExp = onDisplay(); // current expression is the formatted value
+
+            try {
+                setDisplay(evaluateExpression(currentExp).toString()); // calculate expression
+                currentExp = onDisplay(); // current expression is the formatted value
+            } catch (ArithmeticException e) { // Failed evaluation
+                setDisplay("Error");
+                currentExp = "";
+                return;
+            }
 
             resetBtn();
             hasEqualed = true;
