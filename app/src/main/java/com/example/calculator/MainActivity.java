@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private static final HashMap<String, BiFunction<Double, Double, Double>> operators =
             new HashMap<String, BiFunction<Double, Double, Double>>() {{
         put("+", Double::sum);
+        put("-", (n0, n1) -> n0 - n1);
     }};
 
     /**
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private static final HashMap<Integer, String> btnToOperator = new HashMap<Integer, String>() {{
        put(R.id.plusBtn, "+");
+       put(R.id.minusBtn, "-");
     }};
 
     @Override
@@ -278,7 +280,14 @@ public class MainActivity extends AppCompatActivity {
      * Resets the selected btn.
      */
     protected void resetBtn() {
-        selectedBtn = -1;
+        setSelectedBtn(-1);
+    }
+
+    /**
+     * @param newBtn ID
+     */
+    protected void setSelectedBtn(int newBtn) {
+        selectedBtn = newBtn;
     }
 
     /**
@@ -292,6 +301,10 @@ public class MainActivity extends AppCompatActivity {
             currentExp = onDisplay(); // Get from user
             setMiniDisplay(currentExp); // Updated mini-screen
             clearDisplay();
+
+            if (!hasSelectedOp()) { // Initial btn click
+                setSelectedBtn(view.getId());
+            }
         } else if (isEquals(view)) { // User pressed equals btn
             if (!onDisplay().isEmpty() && hasSelectedOp()) {
                 // If the display is not empty & the user has selected an operator.
@@ -305,7 +318,11 @@ public class MainActivity extends AppCompatActivity {
             resetBtn();
             hasEqualed = true;
         } else { // User pressed any other action btn
-            selectedBtn = view.getId(); // set selected operator
+            // Initial btn click, this prevents lack of operator when the user presses the equals
+            // Btn initially.
+            if (!hasSelectedOp()) {
+                setSelectedBtn(view.getId());
+            }
 
             // Clear previous result
             if (hasEqualed) {
@@ -323,6 +340,8 @@ public class MainActivity extends AppCompatActivity {
 
             // set back to false, any equalities are done
             hasEqualed = false;
+
+            setSelectedBtn(view.getId()); // set selected operator
         }
     }
 }
