@@ -3,4 +3,6 @@
     <string name="plusBtn">+</string>
     <string name="equalBtn">=</string>
     <string name="minusBtn">-</string>
+    <string name="multiplyBtn">×</string>
+    <string name="divisionBtn">÷</string>
 </resources>

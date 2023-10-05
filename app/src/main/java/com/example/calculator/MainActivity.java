@@ -132,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
                 } else if (Character.isDigit(c)) {
                     result.add("" + c);
                 }
-            } else if (Character.isDigit(c) || c == '.') {
+            } else if (Character.isDigit(c) || c == '.' || c == 'E') {
+                // account for decimal dot and scientific notation
                 current.append(c);
             } else if (isOperator(c)) {
                 if (current.length() != 0) {

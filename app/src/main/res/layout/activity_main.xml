@@ -48,51 +48,48 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0c0c0c"
         android:layout_below="@id/display"
-        android:useDefaultMargins="true"
-        android:padding="10dp"
+        android:background="#0c0c0c"
         android:columnCount="4"
+        android:padding="10dp"
         android:rowCount="5"
-        >
+        android:useDefaultMargins="true">
+
         <Button
             android:id="@+id/plusBtn"
+            android:layout_row="3"
+            android:layout_rowWeight="1"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:backgroundTint="#800080"
+            android:onClick="handleOperation"
             android:text="@string/plusBtn"
             android:textColor="@color/white"
-            android:backgroundTint="#800080"
-            android:textSize="40sp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_row="3"
-            android:layout_column="3"
-            android:onClick="handleOperation"
-            />
+            android:textSize="40sp" />
 
         <Button
             android:id="@+id/minusBtn"
+            android:layout_row="2"
+            android:layout_rowWeight="1"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:backgroundTint="#800080"
+            android:onClick="handleOperation"
             android:text="@string/minusBtn"
             android:textColor="@color/white"
-            android:backgroundTint="#800080"
-            android:textSize="40sp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_row="2"
-            android:layout_column="3"
-            android:onClick="handleOperation"
-            />
+            android:textSize="40sp" />
 
         <Button
             android:id="@+id/equalBtn"
+            android:layout_row="4"
+            android:layout_rowWeight="1"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:backgroundTint="#800080"
+            android:onClick="handleOperation"
             android:text="@string/equalBtn"
             android:textColor="@color/white"
-            android:backgroundTint="#800080"
-            android:textSize="40sp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_row="4"
-            android:layout_column="3"
-            android:onClick="handleOperation"
-            />
+            android:textSize="40sp" />
     </GridLayout>
 
 </RelativeLayout>
