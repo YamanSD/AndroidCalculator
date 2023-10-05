@@ -22,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
     private String currentExp = "";
 
     /**
-     * Display instance for the calculator
+     * Display instance for the calculator, used to display input & output.
      */
     private EditText display;
 
     /**
-     * Mini-display instance for the calculator
+     * Mini-display instance for the calculator, used to display entire exp.
      */
     private EditText miniDisplay;
 
@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param view pressed button
      */
-    public void executeExpression(View view) {
+    public void handleOperation(View view) {
         /* first input */
         if (currentExp.isEmpty()) {
             currentExp = onDisplay(); // Get from user
