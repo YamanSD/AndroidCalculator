@@ -83,6 +83,7 @@
             android:id="@+id/clearBtn"
             android:layout_row="0"
             android:layout_rowWeight="1"
+            android:layout_columnSpan="2"
             android:layout_column="0"
             android:layout_columnWeight="2"
             android:backgroundTint="#800080"
