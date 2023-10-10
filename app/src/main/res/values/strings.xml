@@ -5,4 +5,23 @@
     <string name="minusBtn">-</string>
     <string name="multiplyBtn">×</string>
     <string name="divisionBtn">÷</string>
+    <string name="plusMinusBtn">±</string>
+    <string name="percentBtn">%</string>
+    <string name="clearBtn">C</string>
+    <string name="clearRegister">CE</string>
+    <string name="empty"> </string>
+    <string name="digitDotBtn">.</string>
+    <string name="digit0Btn">0</string>
+    <string name="digit1Btn">1</string>
+    <string name="digit2Btn">2</string>
+    <string name="digit3Btn">3</string>
+    <string name="digit4Btn">4</string>
+    <string name="digit5Btn">5</string>
+    <string name="digit6Btn">6</string>
+    <string name="digit7Btn">7</string>
+    <string name="digit8Btn">8</string>
+    <string name="digit9Btn">9</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
 </resources>

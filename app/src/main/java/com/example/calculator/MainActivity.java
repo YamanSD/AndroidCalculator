@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
             new HashMap<String, BiFunction<Double, Double, Double>>() {{
         put("+", Double::sum);
         put("-", (n0, n1) -> n0 - n1);
+        put("×", (n0, n1) -> n0 * n1);
+        put("÷", (n0, n1) -> n0 / n1);
     }};
 
     /**
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     private static final HashMap<Integer, String> btnToOperator = new HashMap<Integer, String>() {{
        put(R.id.plusBtn, "+");
        put(R.id.minusBtn, "-");
+       put(R.id.multiplyBtn, "×");
+       put(R.id.divisionBtn, "÷");
     }};
 
     @Override
@@ -77,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             return Double.parseDouble(token);
         } catch (NumberFormatException ignored) {
-            throw new RuntimeException("No implemented functions");
+            throw new ArithmeticException();
         }
     }
 
