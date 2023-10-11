@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/display"
-        android:background="#0c0c0c"
+        android:background="@color/black"
         android:columnCount="4"
         android:padding="10dp"
         android:rowCount="5"
